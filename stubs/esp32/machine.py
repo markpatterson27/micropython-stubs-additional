@@ -98,7 +98,7 @@ class PWM:
 PWRON_RESET = 1
 
 class Pin:
-    ''
+    '''Access the pin peripheral (GPIO pin) associated with the given id.'''
     IN = 1
     IRQ_FALLING = 2
     IRQ_RISING = 1
@@ -109,20 +109,40 @@ class Pin:
     PULL_UP = 2
     WAKE_HIGH = 5
     WAKE_LOW = 4
-    def init():
+    
+    def init(self, pin_id, mode=- 1, pull=- 1, *, value=0, drive, alt):
+        self._value = value
+
+    def irq(self, handler=None, trigger=IRQ_FALLING|IRQ_RISING, *, priority=1, wake=None, hard=False):
+        '''
+        Configure an interrupt handler to be called when the trigger source of the pin is active.
+        
+        Params
+
+        handler: optional function to be called when the interrupt triggers. The handler must take exactly one argument which is the Pin instance.
+        trigger: configures the event which can generate an interrupt. Possible values are:
+          - Pin.IRQ_FALLING interrupt on falling edge.
+          - Pin.IRQ_RISING interrupt on rising edge.
+
+        Returns callback object
+        '''
         pass
 
-    def irq():
-        pass
+    def off(self):
+        '''Set pin to “0” output level.'''
+        self._value = 0
 
-    def off():
-        pass
+    def on(self):
+        '''Set pin to “1” output level.'''
+        self._value = 1
 
-    def on():
-        pass
-
-    def value():
-        pass
+    def value(self, val=None):
+        '''Set and get the value of the pin, depending on whether the argument val is supplied or not.'''
+        if val is None:
+            return self._value
+        else:
+            self._value = val
+            return None
 
 
 class RTC:
