@@ -20,7 +20,7 @@ HARD_RESET = 6
 
 class I2C:
     '''The I2C driver is implemented in software and works on all pins'''
-    
+
     def init(self, scl, sda, *, freq=400000, timeout=255):
         '''
         Construct a new software I2C object.
@@ -34,7 +34,7 @@ class I2C:
         '''
         pass
 
-    def readfrom(self, addr, nbytes, stop=True, /):
+    def readfrom(self, addr, nbytes, stop=True):
         '''
         Read nbytes from the slave specified by addr. If stop is true then a STOP condition is generated at the end of the transfer.
         
@@ -42,7 +42,7 @@ class I2C:
         '''
         return [randint(0, 2**8-1)]*nbytes
 
-    def readfrom_into(self, addr, buf, stop=True, /):
+    def readfrom_into(self, addr, buf, stop=True):
         '''
         Read into buf from the slave specified by addr. The number of bytes read will be the length of buf. If stop is true then a STOP condition is generated at the end of the transfer.
 
@@ -66,7 +66,7 @@ class I2C:
         '''
         return None
 
-    def readinto(self, buf, nack=True, /):
+    def readinto(self, buf, nack=True):
         '''
         Reads bytes from the bus and stores them into buf. The number of bytes read is the length of buf. An ACK will be sent on the bus after receiving all but the last byte. After the last byte is received, if nack is true then a NACK will be sent, otherwise an ACK will be sent (and in this case the slave assumes more bytes are going to be read in a later call).
         '''
@@ -92,7 +92,7 @@ class I2C:
         '''
         return len(buf)
 
-    def writeto(self, addr, buf, stop=True, /):
+    def writeto(self, addr, buf, stop=True):
         '''
         Write the bytes from buf to the slave specified by addr. If a NACK is received following the write of a byte from buf then the remaining bytes are not sent. If stop is true then a STOP condition is generated at the end of the transfer, even if a NACK is received.
         
@@ -108,7 +108,7 @@ class I2C:
         '''
         return None
 
-    def writevto(self, addr, vector, stop=True, /):
+    def writevto(self, addr, vector, stop=True):
         '''
         Write the bytes contained in vector to the slave specified by addr. vector should be a tuple or list of objects with the buffer protocol. The addr is sent once and then the bytes from each object in vector are written out sequentially. The objects in vector may be zero bytes in length in which case they don’t contribute to the output.
 
