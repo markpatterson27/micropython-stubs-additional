@@ -18,7 +18,7 @@ DEEPSLEEP = 4
 DEEPSLEEP_RESET = 5
 HARD_RESET = 6
 
-class I2C:
+class SoftI2C:
     '''The I2C driver is implemented in software and works on all pins'''
 
     def init(self, scl, sda, *, freq=400000, timeout=255):
@@ -117,6 +117,9 @@ class I2C:
         Returns the number of ACKs that were received.
         '''
         return len(vector)
+
+
+I2C = SoftI2C
 
 
 class PWM:
@@ -231,48 +234,6 @@ class Signal:
         pass
 
     def value():
-        pass
-
-
-class SoftI2C:
-    ''
-    def init():
-        pass
-
-    def readfrom():
-        pass
-
-    def readfrom_into():
-        pass
-
-    def readfrom_mem():
-        pass
-
-    def readfrom_mem_into():
-        pass
-
-    def readinto():
-        pass
-
-    def scan():
-        pass
-
-    def start():
-        pass
-
-    def stop():
-        pass
-
-    def write():
-        pass
-
-    def writeto():
-        pass
-
-    def writeto_mem():
-        pass
-
-    def writevto():
         pass
 
 
