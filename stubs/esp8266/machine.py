@@ -147,8 +147,17 @@ class Pin:
     OUT = 1
     PULL_UP = 1
     
-    def init(self, pin_id, mode=- 1, pull=- 1, *, value=0, drive, alt):
+    def __init__(self, pin_id, mode=- 1, pull=- 1, *, value=0, drive, alt):
         self._value = value
+
+    def init(self, mode=- 1, pull=- 1, *, value=0, drive, alt):
+        '''
+        Re-initialise the pin using the given parameters.
+
+        Returns None.
+        '''
+        self._value = value
+        return None
 
     def irq(self, handler=None, trigger=IRQ_FALLING|IRQ_RISING, *, priority=1, wake=None, hard=False):
         '''
