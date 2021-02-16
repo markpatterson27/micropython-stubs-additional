@@ -5,8 +5,8 @@ from random import randint
 bit = 0
 
 def crc8(data):
-    # onewire module implies this returns something. assuming it's boolean
-    return True
+    # assuming returns remainder of crc check
+    return 0
 
 def readbit(pin):
     # seems if this gives two 1's in row, implies no device
