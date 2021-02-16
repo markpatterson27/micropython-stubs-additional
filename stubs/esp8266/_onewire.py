@@ -2,12 +2,20 @@
 
 from random import randint
 
+bit = 0
+
 def crc8(data):
     # onewire module implies this returns something. assuming it's boolean
     return True
 
 def readbit(pin):
-    return randint(0, 1)
+    # seems if this gives two 1's in row, implies no device
+    global bit
+    if bit == 1:
+        bit = 0
+    else:
+        bit = randint(0, 1)
+    return bit
 
 def readbyte(pin):
     return randint(0, 2**8-1)
