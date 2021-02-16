@@ -19,6 +19,6 @@ def writebit(pin, value):
     # onewire module implies this returns something. assuming it's boolean
     return True
 
-def writebytepin(pin, value):
+def writebyte(pin, value):
     # onewire module implies this returns something. assuming it's boolean
     return True
