@@ -147,16 +147,31 @@ class Pin:
     OUT = 1
     PULL_UP = 1
     
-    def __init__(self, pin_id, mode=- 1, pull=- 1, *, value=0, drive, alt):
-        self._value = value
+    def __init__(self, pin_id, mode=- 1, pull=- 1, **kwargs):
+        '''
+        params:
+        mode
+        pull
+        value
+        drive
+        alt
+        '''
+        self._value = kwargs.get('value', 0)
 
-    def init(self, mode=- 1, pull=- 1, *, value=0, drive, alt):
+    def init(self, mode=- 1, pull=- 1, **kwargs):
         '''
         Re-initialise the pin using the given parameters.
 
+        params:
+        mode
+        pull
+        value
+        drive
+        alt
+
         Returns None.
         '''
-        self._value = value
+        self._value = kwargs.get('value', 0)
         return None
 
     def irq(self, handler=None, trigger=IRQ_FALLING|IRQ_RISING, *, priority=1, wake=None, hard=False):
