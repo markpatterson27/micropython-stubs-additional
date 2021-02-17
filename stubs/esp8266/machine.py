@@ -7,12 +7,25 @@ Module: 'machine' on micropython-esp8266-2.0.0(5a875ba)
 from random import randint
 
 class ADC:
-    ''
-    def read():
+    '''
+    The ADC class provides an interface to analog-to-digital convertors, and represents a single endpoint that can sample a continuous voltage and convert it to a discretised value.
+    '''
+    def __init__(self, id):
+        '''
+        Access the ADC associated with a source identified by id. This id may be an integer (usually specifying a channel number), a Pin object, or other value supported by the underlying machine.
+        '''
         pass
 
-    def read_u16():
-        pass
+    def read(self):
+        '''Take an analog reading and return an integer in the range 0-1024.'''
+        return randint(0, 2**10-1)
+
+    def read_u16(self):
+        '''
+        Take an analog reading and return an integer in the range 0-65535.
+        Return value represents the raw reading taken by the ADC, scaled such that the minimum value is 0 and the maximum value is 65535.
+        '''
+        return randint(0, 2**16-1)
 
 DEEPSLEEP = 4
 DEEPSLEEP_RESET = 5

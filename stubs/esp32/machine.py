@@ -7,7 +7,9 @@ Module: 'machine' on micropython-esp32-1.14
 from random import randint
 
 class ADC:
-    ''
+    '''
+    The ADC class provides an interface to analog-to-digital convertors, and represents a single endpoint that can sample a continuous voltage and convert it to a discretised value.
+    '''
     ATTN_0DB = 0
     ATTN_11DB = 3
     ATTN_2_5DB = 1
@@ -16,17 +18,48 @@ class ADC:
     WIDTH_11BIT = 2
     WIDTH_12BIT = 3
     WIDTH_9BIT = 0
-    def atten():
+
+    def __init__(self, id):
+        '''
+        Access the ADC associated with a source identified by id. This id may be an integer (usually specifying a channel number), a Pin object, or other value supported by the underlying machine.
+        '''
+        self._width = self.WIDTH_12BIT
+
+    def atten(self, attenuation):
+        '''
+        This method allows for the setting of the amount of attenuation on the input of the ADC. This allows for a wider possible input voltage range, at the cost of accuracy (the same number of bits now represents a wider range).
+
+        The possible attenuation options are:
+        ADC.ATTN_0DB: 0dB attenuation, gives a maximum input voltage of 1.00v - this is the default configuration
+        ADC.ATTN_2_5DB: 2.5dB attenuation, gives a maximum input voltage of approximately 1.34v
+        ADC.ATTN_6DB: 6dB attenuation, gives a maximum input voltage of approximately 2.00v
+        ADC.ATTN_11DB: 11dB attenuation, gives a maximum input voltage of approximately 3.6v
+        '''
         pass
 
-    def read():
-        pass
+    def read(self):
+        '''Take an analog reading and return an integer in the range 0-1024.'''
+        w = 9 + self._width
+        return randint(0, 2**w-1)
 
-    def read_u16():
-        pass
+    def read_u16(self):
+        '''
+        Take an analog reading and return an integer in the range 0-65535.
+        Return value represents the raw reading taken by the ADC, scaled such that the minimum value is 0 and the maximum value is 65535.
+        '''
+        return randint(0, 2**16-1)
 
-    def width():
-        pass
+    def width(self, width):
+        '''
+        This method allows for the setting of the number of bits to be utilised and returned during ADC reads.
+
+        Possible width options are:
+        ADC.WIDTH_9BIT: 9 bit data
+        ADC.WIDTH_10BIT: 10 bit data
+        ADC.WIDTH_11BIT: 11 bit data
+        ADC.WIDTH_12BIT: 12 bit data - this is the default configuration
+        '''
+        self._width = min(width, 3)
 
 
 class DAC:
@@ -71,7 +104,7 @@ class I2C:
     def readfrom(self, addr, nbytes, stop=True):
         '''
         Read nbytes from the slave specified by addr. If stop is true then a STOP condition is generated at the end of the transfer.
-        
+
         Returns a bytes object with the data read.
         '''
         return bytes([randint(0, 2**8-1) for iter in range(nbytes)])
@@ -87,7 +120,7 @@ class I2C:
     def readfrom_mem(self, addr, memaddr, nbytes, *, addrsize=8):
         '''
         Read nbytes from the slave specified by addr starting from the memory address specified by memaddr. The argument addrsize specifies the address size in bits.
-        
+
         Returns a bytes object with the data read.
         '''
         return bytes([randint(0, 2**8-1) for iter in range(nbytes)])
@@ -121,7 +154,7 @@ class I2C:
     def write(self, buf):
         '''
         Write the bytes from buf to the bus. Checks that an ACK is received after each byte and stops transmitting the remaining bytes if a NACK is received.
-        
+
         Returns the number of ACKs that were received.
         '''
         return len(buf)
@@ -129,7 +162,7 @@ class I2C:
     def writeto(self, addr, buf, stop=True):
         '''
         Write the bytes from buf to the slave specified by addr. If a NACK is received following the write of a byte from buf then the remaining bytes are not sent. If stop is true then a STOP condition is generated at the end of the transfer, even if a NACK is received.
-        
+
         Returns the number of ACKs that were received.
         '''
         return len(buf)
@@ -147,7 +180,7 @@ class I2C:
         Write the bytes contained in vector to the slave specified by addr. vector should be a tuple or list of objects with the buffer protocol. The addr is sent once and then the bytes from each object in vector are written out sequentially. The objects in vector may be zero bytes in length in which case they don’t contribute to the output.
 
         If a NACK is received following the write of a byte from one of the objects in vector then the remaining bytes, and any remaining objects, are not sent. If stop is true then a STOP condition is generated at the end of the transfer, even if a NACK is received.
-        
+
         Returns the number of ACKs that were received.
         '''
         return len(vector)
@@ -213,7 +246,7 @@ class Pin:
     def irq(self, handler=None, trigger=IRQ_FALLING|IRQ_RISING, *, priority=1, wake=None, hard=False):
         '''
         Configure an interrupt handler to be called when the trigger source of the pin is active.
-        
+
         Params
 
         handler: optional function to be called when the interrupt triggers. The handler must take exactly one argument which is the Pin instance.
