@@ -62,7 +62,7 @@ class I2C:
         
         Returns a bytes object with the data read.
         '''
-        return [randint(0, 2**8-1)]*nbytes
+        return bytes([randint(0, 2**8-1) for iter in range(nbytes)])
 
     def readfrom_into(self, addr, buf, stop=True):
         '''
@@ -78,7 +78,7 @@ class I2C:
         
         Returns a bytes object with the data read.
         '''
-        return [randint(0, 2**8-1)]*nbytes
+        return bytes([randint(0, 2**8-1) for iter in range(nbytes)])
 
     def readfrom_mem_into(self, addr, memaddr, buf, *, addrsize=8):
         '''
