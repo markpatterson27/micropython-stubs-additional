@@ -21,7 +21,7 @@ HARD_RESET = 6
 class SoftI2C:
     '''The I2C driver is implemented in software and works on all pins'''
 
-    def init(self, scl, sda, *, freq=400000, timeout=255):
+    def __init__(self, scl, sda, *, freq=400000, timeout=255):
         '''
         Construct a new software I2C object.
 
@@ -31,6 +31,18 @@ class SoftI2C:
         sda - pin object specifying the pin to use for SDA.
         freq - integer which sets the maximum frequency for SCL.
         timeout - the maximum time in microseconds to wait for clock stretching (SCL held low by another device on the bus), after which an OSError(ETIMEDOUT) exception is raised.
+        '''
+        pass
+
+    def init(self, scl, sda, *, freq=400000):
+        '''
+        Initialise the I2C bus.
+
+        param
+
+        scl - pin object specifying the pin to use for SCL.
+        sda - pin object specifying the pin to use for SDA.
+        freq - integer which sets the maximum frequency for SCL.
         '''
         pass
 

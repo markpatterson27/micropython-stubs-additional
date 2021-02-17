@@ -42,14 +42,26 @@ HARD_RESET = 2
 
 class I2C:
     '''There are two hardware I2C peripherals with identifiers 0 and 1. Any available output-capable pins can be used for SCL and SDA'''
-    
-    def init(id, *, scl, sda, freq=400000):
+
+    def __init__(id, *, scl, sda, freq=400000):
         '''
         Construct a new software I2C object.
 
         param
 
         id - identifies a particular I2C peripheral. Allowed values are 0 or 1.
+        scl - pin object specifying the pin to use for SCL.
+        sda - pin object specifying the pin to use for SDA.
+        freq - integer which sets the maximum frequency for SCL.
+        '''
+        pass
+
+    def init(self, scl, sda, *, freq=400000):
+        '''
+        Initialise the I2C bus.
+
+        param
+
         scl - pin object specifying the pin to use for SCL.
         sda - pin object specifying the pin to use for SDA.
         freq - integer which sets the maximum frequency for SCL.
@@ -300,7 +312,7 @@ class Signal:
 class SoftI2C(I2C):
     '''Software I2C (using bit-banging) works on all output-capable pins'''
 
-    def init(self, scl, sda, *, freq=400000, timeout=255):
+    def __init__(self, scl, sda, *, freq=400000, timeout=255):
         '''
         Construct a new software I2C object.
 
